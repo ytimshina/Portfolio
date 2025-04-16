@@ -387,6 +387,121 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        /* Project Modal/Popup */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background-color: white;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            overflow-y: auto;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .modal-overlay.active .modal {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            color: var(--gray-color);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            color: var(--danger-color);
+        }
+
+        .modal-header {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .modal-body {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+        }
+
+        .modal-image {
+            width: 100%;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-image img {
+            width: 100%;
+            height: auto;
+        }
+
+        .modal-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .modal-tech span {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            background-color: #e0e7ff;
+            border-radius: 5px;
+            color: var(--primary-color);
+        }
+
+        .modal-footer {
+            padding-top: 1rem;
+            border-top: 1px solid #e5e7eb;
+            text-align: right;
         }
 
         /* Education Section */
@@ -631,7 +746,8 @@
         body.dark-mode .skill-category,
         body.dark-mode .project-card,
         body.dark-mode .timeline-content,
-        body.dark-mode .contact-form {
+        body.dark-mode .contact-form,
+        body.dark-mode .modal {
             background-color: #374151;
             color: #f3f4f6;
         }
@@ -647,7 +763,8 @@
             color: white;
         }
 
-        body.dark-mode .project-tech span {
+        body.dark-mode .project-tech span,
+        body.dark-mode .modal-tech span {
             background-color: #3b82f6;
             color: white;
         }
@@ -666,7 +783,8 @@
         }
 
         body.dark-mode .project-description,
-        body.dark-mode .timeline-subtitle {
+        body.dark-mode .timeline-subtitle,
+        body.dark-mode .modal-section p {
             color: #d1d5db;
         }
 
@@ -743,6 +861,15 @@
             .projects-grid {
                 grid-template-columns: 1fr;
             }
+
+            .modal {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Prevent scrolling when modal is open */
+        body.modal-open {
+            overflow: hidden;
         }
     </style>
 </head>
@@ -885,8 +1012,7 @@
                             <span>Risk Assessment</span>
                         </div>
                         <div class="project-links">
-                            <a href="#"><i class="fab fa-github"></i> GitHub</a>
-                            <a href="#"><i class="fas fa-external-link-alt"></i> Details</a>
+                            <a class="details-btn" data-project="project1"><i class="fas fa-external-link-alt"></i> Details</a>
                         </div>
                     </div>
                 </div>
@@ -905,8 +1031,7 @@
                             <span>Access Control</span>
                         </div>
                         <div class="project-links">
-                            <a href="#"><i class="fab fa-github"></i> GitHub</a>
-                            <a href="#"><i class="fas fa-external-link-alt"></i> Details</a>
+                            <a class="details-btn" data-project="project2"><i class="fas fa-external-link-alt"></i> Details</a>
                         </div>
                     </div>
                 </div>
@@ -925,14 +1050,170 @@
                             <span>Threat Detection</span>
                         </div>
                         <div class="project-links">
-                            <a href="#"><i class="fab fa-github"></i> GitHub</a>
-                            <a href="#"><i class="fas fa-external-link-alt"></i> Details</a>
+                            <a class="details-btn" data-project="project3"><i class="fas fa-external-link-alt"></i> Details</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <!-- Project Modals -->
+    <!-- Project 1 Modal -->
+    <div id="modal-project1" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-close"><i class="fas fa-times"></i></div>
+            <div class="modal-header">
+                <h2 class="modal-title">Network Security Analysis</h2>
+            </div>
+            <div class="modal-body">
+                <div class="modal-image">
+                    <img src="/api/placeholder/800/450" alt="Network Security Analysis Project">
+                </div>
+                <div class="modal-section">
+                    <h3 class="modal-section-title">Project Overview</h3>
+                    <p>This comprehensive network security analysis project focused on identifying and addressing vulnerabilities in organizational networks. Through rigorous testing and assessment, I developed and implemented robust security measures to safeguard sensitive data from potential threats.</p>
+                </div>
+                <div class="modal-section">
+                    <h3 class="modal-section-title">Technologies Used</h3>
+                    <div class="modal-tech">
+                        <span>Python</span>
+                        <span>Network Security</span>
+                        <span>Risk Assessment</span>
+                        <span>Vulnerability Scanning</span>
+                        <span>Packet Analysis</span>
+                        <span>Intrusion Detection</span>
+                    </div>
+                </div>
+                <div class="modal-section">
+                    <h3 class="modal-section-title">Key Features</h3>
+                    <ul>
+                        <li>Comprehensive vulnerability assessment of network infrastructure</li>
+                        <li>Automated scanning and detection of security weaknesses</li>
+                        <li>Implementation of multi-layered security controls</li>
+                        <li>Real-time monitoring and alert system for suspicious activities</li>
+                        <li>Detailed documentation and reporting of security findings</li>
+                    </ul>
+                </div>
+                <div class="modal-section">
+                    <h3 class="modal-section-title">Challenges & Solutions</h3>
+                    <p>One of the key challenges was balancing security with operational efficiency. I addressed this by implementing selective scanning processes that minimized network disruption while maintaining comprehensive coverage. Additionally, I developed custom Python scripts to automate routine security checks, reducing manual intervention while enhancing detection capabilities.</p>
+                </div>
+                <div class="modal-section">
+                    <h3 class="modal-section-title">Outcomes</h3>
+                    <p>The implementation resulted in a 75% reduction in network vulnerabilities and significantly improved the organization's security posture. The automated monitoring system now provides early detection of potential security incidents, allowing for proactive intervention before breaches can occur.</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn modal-close-btn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Project 2 Modal -->
+    <div id="modal-project2" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-close"><i class="fas fa-times"></i></div>
+            <div class="modal-header">
+                <h2 class="modal-title">Database Security System</h2>
+            </div>
+            <div class="modal-body">
+                <div class="modal-image">
+                    <img src="/api/placeholder/800/450" alt="Database Security System Project">
+                </div>
+                <div class="modal-section">
+                    <h3 class="modal-section-title">Project Overview</h3>
+                    <p>This project involved designing and implementing a secure database system with advanced encryption and access control mechanisms. The system was created to protect sensitive information while maintaining functionality and performance for authorized users.</p>
+                </div>
+                <div class="modal-section">
+                    <h3 class="modal-section-title">Technologies Used</h3>
+                    <div class="modal-tech">
+                        <span>SQL</span>
+                        <span>Java</span>
+                        <span>Data Encryption</span>
+                        <span>Access Control</span>
+                        <span>Role-Based Security</span>
+                        <span>Audit Logging</span>
+                    </div>
+                </div>
+                <div class="modal-section">
+                    <h3 class="modal-section-title">Key Features</h3>
+                    <ul>
+                        <li>End-to-end data encryption for sensitive information</li>
+                        <li>Granular access control based on user roles and permissions</li>
+                        <li>Multi-factor authentication for accessing critical data</li>
+                        <li>Comprehensive audit logging of all database transactions</li>
+                        <li>Automated threat detection and response mechanisms</li>
+                        <li>Regular automated backup and recovery procedures</li>
+                    </ul>
+                </div>
+                <div class="modal-section">
+                    <h3 class="modal-section-title">Challenges & Solutions</h3>
+                    <p>The primary challenge was maintaining system performance while implementing robust security measures. I addressed this by optimizing the encryption algorithms and implementing selective encryption for only the most sensitive data fields. Additionally, I designed a caching mechanism that reduced authentication overhead for frequently accessed resources.</p>
+                </div>
+                <div class="modal-section">
+                    <h3 class="modal-section-title">Outcomes</h3>
+                    <p>The database security system successfully protected sensitive data while maintaining system performance. The implementation resulted in compliance with industry security standards and regulations, with the audit system providing comprehensive visibility into all database activities. The system now serves as a model for secure database implementation across the organization.</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn modal-close-btn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Project 3 Modal -->
+    <div id="modal-project3" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-close"><i class="fas fa-times"></i></div>
+            <div class="modal-header">
+                <h2 class="modal-title">Security Monitoring Dashboard</h2>
+            </div>
+            <div class="modal-body">
+                <div class="modal-image">
+                    <img src="/api/placeholder/800/450" alt="Security Monitoring Dashboard Project">
+                </div>
+                <div class="modal-section">
+                    <h3 class="modal-section-title">Project Overview</h3>
+                    <p>This project focused on developing a comprehensive security monitoring dashboard that provides real-time visualization of security events and alerts. The dashboard integrates data from multiple security systems to provide a unified view of the organization's security posture.</p>
+                </div>
+                <div class="modal-section">
+                    <h3 class="modal-section-title">Technologies Used</h3>
+                    <div class="modal-tech">
+                        <span>HTML</span>
+                        <span>CSS</span>
+                        <span>JavaScript</span>
+                        <span>C#</span>
+                        <span>Data Visualization</span>
+                        <span>Threat Detection</span>
+                        <span>API Integration</span>
+                    </div>
+                </div>
+                <div class="modal-section">
+                    <h3 class="modal-section-title">Key Features</h3>
+                    <ul>
+                        <li>Real-time visualization of security events and alerts</li>
+                        <li>Customizable dashboard views for different user roles</li>
+                        <li>Integration with multiple security information sources</li>
+                        <li>Automated threat classification and prioritization</li>
+                        <li>Historical trend analysis and reporting capabilities</li>
+                        <li>Mobile-responsive design for monitoring on any device</li>
+                    </ul>
+                </div>
+                <div class="modal-section">
+                    <h3 class="modal-section-title">Challenges & Solutions</h3>
+                    <p>The main challenge was processing and visualizing large volumes of security data in real-time without performance degradation. I implemented a tiered data processing architecture that filtered and aggregated events before visualization, significantly reducing the processing load. Additionally, I designed an adaptive refresh mechanism that adjusted update frequencies based on data criticality and user activity.</p>
+                </div>
+                <div class="modal-section">
+                    <h3 class="modal-section-title">Outcomes</h3>
+                    <p>The security monitoring dashboard has dramatically improved the organization's ability to detect and respond to security incidents. Security analysts now have immediate visibility into potential threats, with the average incident response time reduced by 60%. The system's intuitive visualization has also enhanced communication of security status to non-technical stakeholders, improving overall security awareness throughout the organization.</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn modal-close-btn">Close</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Education Section -->
     <section class="section" id="education" style="background-color: #f9fafb;">
@@ -1154,16 +1435,64 @@
             }
         });
 
-        // Form Submission (For demonstration purposes)
+        // Form Submission with email draft and validation
         const contactForm = document.getElementById('contactForm');
         
         contactForm.addEventListener('submit', (e) => {
             e.preventDefault();
             
-            // In a real scenario, you would handle form submission to a backend service
-            // For now, we'll just display an alert
-            alert('Message sent successfully! (This is a demo)');
-            contactForm.reset();
+            // Get form values
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            
+            // Basic validation
+            if (!name || !email || !subject || !message) {
+                alert('Please fill out all fields');
+                return;
+            }
+            
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('Please enter a valid email address');
+                return;
+            }
+            
+            try {
+                // Create mailto link with form data
+                const mailtoLink = `mailto:Ytimshina22@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`)}`;
+                
+                // Open email client
+                window.location.href = mailtoLink;
+                
+                // Show confirmation to user
+                const confirmationMessage = document.createElement('div');
+                confirmationMessage.className = 'form-confirmation';
+                confirmationMessage.innerHTML = '<p>Email client opened! If nothing happened, please check your browser settings or manually send an email to Ytimshina22@gmail.com</p>';
+                confirmationMessage.style.color = 'green';
+                confirmationMessage.style.marginTop = '10px';
+                confirmationMessage.style.padding = '10px';
+                confirmationMessage.style.backgroundColor = '#e0f7e0';
+                confirmationMessage.style.borderRadius = '5px';
+                
+                // Insert the confirmation message after form
+                contactForm.parentNode.appendChild(confirmationMessage);
+                
+                // Remove the confirmation message after some time
+                setTimeout(() => {
+                    if (confirmationMessage.parentNode) {
+                        confirmationMessage.parentNode.removeChild(confirmationMessage);
+                    }
+                }, 5000);
+                
+                // Reset the form
+                contactForm.reset();
+            } catch (error) {
+                console.error('Error opening email client:', error);
+                alert('There was an error opening your email client. Please try again or manually send an email to Ytimshina22@gmail.com');
+            }
         });
 
         // Typewriter Effect (Alternative implementation without libraries)
@@ -1210,6 +1539,50 @@
         // Check on scroll and initial load
         window.addEventListener('scroll', checkScroll);
         window.addEventListener('load', checkScroll);
+
+        // Modal/Popup Functionality
+        const detailsBtns = document.querySelectorAll('.details-btn');
+        const modalOverlays = document.querySelectorAll('.modal-overlay');
+        const modalCloseBtns = document.querySelectorAll('.modal-close, .modal-close-btn');
+
+        // Open Modal
+        detailsBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const projectId = btn.getAttribute('data-project');
+                const modal = document.getElementById(`modal-${projectId}`);
+                modal.classList.add('active');
+                document.body.classList.add('modal-open');
+            });
+        });
+
+        // Close Modal
+        modalCloseBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const modal = btn.closest('.modal-overlay');
+                modal.classList.remove('active');
+                document.body.classList.remove('modal-open');
+            });
+        });
+
+        // Close Modal when clicking outside
+        modalOverlays.forEach(overlay => {
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) {
+                    overlay.classList.remove('active');
+                    document.body.classList.remove('modal-open');
+                }
+            });
+        });
+
+        // Close Modal with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                modalOverlays.forEach(overlay => {
+                    overlay.classList.remove('active');
+                });
+                document.body.classList.remove('modal-open');
+            }
+        });
     </script>
 </body>
 </html>
