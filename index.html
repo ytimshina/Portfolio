@@ -390,6 +390,87 @@
             cursor: pointer;
         }
 
+        /* Project Category Styling */
+        .category-section {
+            margin-bottom: 4rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .category-section:last-child {
+            border-bottom: none;
+        }
+        
+        .category-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark-color);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .category-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+        
+        .category-description {
+            max-width: 800px;
+            margin-bottom: 2rem;
+            color: var(--gray-color);
+        }
+        
+        /* GitHub Link Styling */
+        .project-links a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-right: 1rem;
+            transition: var(--transition);
+        }
+        
+        .project-links a:hover {
+            transform: translateY(-2px);
+        }
+        
+        .project-links a i {
+            font-size: 1.1rem;
+        }
+        
+        /* Modal Footer Update */
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+        
+        /* Dark Mode Updates */
+        body.dark-mode .category-description {
+            color: #d1d5db;
+        }
+        
+        body.dark-mode .category-section {
+            border-bottom-color: #4b5563;
+        }
+        
+        /* Animation for Category Sections */
+        .category-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        
+        .category-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         /* Project Modal/Popup */
         .modal-overlay {
             position: fixed;
@@ -871,6 +952,21 @@
         body.modal-open {
             overflow: hidden;
         }
+        
+        /* Additional styling for project images */
+    .project-image img, 
+    .modal-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+    
+    /* Ensure modal images maintain aspect ratio but don't get too tall */
+    .modal-image {
+        max-height: 450px;
+        overflow: hidden;
+    }
     </style>
 </head>
 <body>
@@ -991,287 +1087,319 @@
         </div>
     </section>
 
-    <!-- Projects Section -->
-    <section class="section" id="projects">
-        <div class="container">
-            <div class="section-title">
-                <h2>My Projects</h2>
-            </div>
-            <div class="projects-grid">
-                <!-- Project 1 -->
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="/api/placeholder/600/400" alt="Information Security Project">
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">Network Security Analysis</h3>
-                        <p class="project-description">A comprehensive analysis of network vulnerabilities and implementation of security measures to protect sensitive data.</p>
-                        <div class="project-tech">
-                            <span>Python</span>
-                            <span>Network Security</span>
-                            <span>Risk Assessment</span>
-                        </div>
-                        <div class="project-links">
-                            <a class="details-btn" data-project="project1"><i class="fas fa-external-link-alt"></i> Details</a>
-                        </div>
-                    </div>
-                </div>
-                <!-- Project 2 -->
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="/api/placeholder/600/400" alt="Database Security Project">
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">Database Security System</h3>
-                        <p class="project-description">Design and implementation of a secure database system with encrypted data storage and access control mechanisms.</p>
-                        <div class="project-tech">
-                            <span>SQL</span>
-                            <span>Java</span>
-                            <span>Data Encryption</span>
-                            <span>Access Control</span>
-                        </div>
-                        <div class="project-links">
-                            <a class="details-btn" data-project="project2"><i class="fas fa-external-link-alt"></i> Details</a>
-                        </div>
-                    </div>
-                </div>
-                <!-- Project 3 -->
-                <div class="project-card">
-                    <div class="project-image">
-                        <img src="/api/placeholder/600/400" alt="Security Dashboard Project">
-                    </div>
-                    <div class="project-content">
-                        <h3 class="project-title">Security Monitoring Dashboard</h3>
-                        <p class="project-description">Development of a comprehensive security monitoring dashboard that provides real-time alerts and visualization of security events.</p>
-                        <div class="project-tech">
-                            <span>HTML</span>
-                            <span>C#</span>
-                            <span>Data Visualization</span>
-                            <span>Threat Detection</span>
-                        </div>
-                        <div class="project-links">
-                            <a class="details-btn" data-project="project3"><i class="fas fa-external-link-alt"></i> Details</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    
+<!-- Projects Section -->
+<section class="section" id="projects">
+    <div class="container">
+        <div class="section-title">
+            <h2>My Projects</h2>
         </div>
-    </section>
-
-    <!-- Project Modals -->
-    <!-- Project 1 Modal -->
-    <div id="modal-project1" class="modal-overlay">
-        <div class="modal">
-            <div class="modal-close"><i class="fas fa-times"></i></div>
-            <div class="modal-header">
-                <h2 class="modal-title">Network Security Analysis</h2>
-            </div>
-            <div class="modal-body">
-                <div class="modal-image">
-                    <img src="/api/placeholder/800/450" alt="Network Security Analysis Project">
+        
+        <div class="projects-grid">
+            <!-- Systems Analysis Card -->
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="https://github.com/user-attachments/assets/9d0d2b79-fd38-4470-ba92-ff70f847f7eb" alt="Systems Analysis Projects">
                 </div>
-                <div class="modal-section">
-                    <h3 class="modal-section-title">Project Overview</h3>
-                    <p>This comprehensive network security analysis project focused on identifying and addressing vulnerabilities in organizational networks. Through rigorous testing and assessment, I developed and implemented robust security measures to safeguard sensitive data from potential threats.</p>
-                </div>
-                <div class="modal-section">
-                    <h3 class="modal-section-title">Technologies Used</h3>
-                    <div class="modal-tech">
-                        <span>Python</span>
-                        <span>Network Security</span>
-                        <span>Risk Assessment</span>
-                        <span>Vulnerability Scanning</span>
-                        <span>Packet Analysis</span>
-                        <span>Intrusion Detection</span>
+                <div class="project-content">
+                    <h3 class="project-title">Systems Analysis</h3>
+                    <p class="project-description">Projects showcasing business and systems analysis methodologies using Agile and UML approaches.</p>
+                    <div class="project-tech">
+                        <span>UML</span>
+                        <span>System Design</span>
+                        <span>Agile</span>
+                    </div>
+                    <div class="project-links">
+                        <a class="details-btn" data-project="systems-analysis"><i class="fas fa-external-link-alt"></i> More Details</a>
                     </div>
                 </div>
-                <div class="modal-section">
-                    <h3 class="modal-section-title">Key Features</h3>
-                    <ul>
-                        <li>Comprehensive vulnerability assessment of network infrastructure</li>
-                        <li>Automated scanning and detection of security weaknesses</li>
-                        <li>Implementation of multi-layered security controls</li>
-                        <li>Real-time monitoring and alert system for suspicious activities</li>
-                        <li>Detailed documentation and reporting of security findings</li>
-                    </ul>
+            </div>
+            
+            <!-- Technical Skills Card -->
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="https://github.com/user-attachments/assets/74bab6b6-0f0b-407d-935a-bf2d117d297f" alt="Technical Skills Projects">
                 </div>
-                <div class="modal-section">
-                    <h3 class="modal-section-title">Challenges & Solutions</h3>
-                    <p>One of the key challenges was balancing security with operational efficiency. I addressed this by implementing selective scanning processes that minimized network disruption while maintaining comprehensive coverage. Additionally, I developed custom Python scripts to automate routine security checks, reducing manual intervention while enhancing detection capabilities.</p>
-                </div>
-                <div class="modal-section">
-                    <h3 class="modal-section-title">Outcomes</h3>
-                    <p>The implementation resulted in a 75% reduction in network vulnerabilities and significantly improved the organization's security posture. The automated monitoring system now provides early detection of potential security incidents, allowing for proactive intervention before breaches can occur.</p>
+                <div class="project-content">
+                    <h3 class="project-title">Technical Skills</h3>
+                    <p class="project-description">Demonstrations of IT analytical capabilities and professional soft skills through case studies and presentations.</p>
+                    <div class="project-tech">
+                        <span>Case Analysis</span>
+                        <span>Documentation</span>
+                        <span>PowerPoint</span>
+                    </div>
+                    <div class="project-links">
+                        <a class="details-btn" data-project="technical-skills"><i class="fas fa-external-link-alt"></i> More Details</a>
+                    </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button class="btn modal-close-btn">Close</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Project 2 Modal -->
-    <div id="modal-project2" class="modal-overlay">
-        <div class="modal">
-            <div class="modal-close"><i class="fas fa-times"></i></div>
-            <div class="modal-header">
-                <h2 class="modal-title">Database Security System</h2>
-            </div>
-            <div class="modal-body">
-                <div class="modal-image">
-                    <img src="/api/placeholder/800/450" alt="Database Security System Project">
+            
+            <!-- Database Design Card -->
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="https://github.com/user-attachments/assets/1dd023c6-08c6-442b-90cb-abb83ee26ea8" alt="Database Design Projects">
                 </div>
-                <div class="modal-section">
-                    <h3 class="modal-section-title">Project Overview</h3>
-                    <p>This project involved designing and implementing a secure database system with advanced encryption and access control mechanisms. The system was created to protect sensitive information while maintaining functionality and performance for authorized users.</p>
-                </div>
-                <div class="modal-section">
-                    <h3 class="modal-section-title">Technologies Used</h3>
-                    <div class="modal-tech">
+                <div class="project-content">
+                    <h3 class="project-title">Database Design</h3>
+                    <p class="project-description">Projects focusing on database architecture, SQL development, and ensuring data integrity through optimized relational design.</p>
+                    <div class="project-tech">
                         <span>SQL</span>
-                        <span>Java</span>
-                        <span>Data Encryption</span>
-                        <span>Access Control</span>
-                        <span>Role-Based Security</span>
-                        <span>Audit Logging</span>
+                        <span>Data Modeling</span>
+                        <span>Normalization</span>
+                    </div>
+                    <div class="project-links">
+                        <a class="details-btn" data-project="database-design"><i class="fas fa-external-link-alt"></i> More Details</a>
                     </div>
                 </div>
-                <div class="modal-section">
-                    <h3 class="modal-section-title">Key Features</h3>
-                    <ul>
-                        <li>End-to-end data encryption for sensitive information</li>
-                        <li>Granular access control based on user roles and permissions</li>
-                        <li>Multi-factor authentication for accessing critical data</li>
-                        <li>Comprehensive audit logging of all database transactions</li>
-                        <li>Automated threat detection and response mechanisms</li>
-                        <li>Regular automated backup and recovery procedures</li>
-                    </ul>
-                </div>
-                <div class="modal-section">
-                    <h3 class="modal-section-title">Challenges & Solutions</h3>
-                    <p>The primary challenge was maintaining system performance while implementing robust security measures. I addressed this by optimizing the encryption algorithms and implementing selective encryption for only the most sensitive data fields. Additionally, I designed a caching mechanism that reduced authentication overhead for frequently accessed resources.</p>
-                </div>
-                <div class="modal-section">
-                    <h3 class="modal-section-title">Outcomes</h3>
-                    <p>The database security system successfully protected sensitive data while maintaining system performance. The implementation resulted in compliance with industry security standards and regulations, with the audit system providing comprehensive visibility into all database activities. The system now serves as a model for secure database implementation across the organization.</p>
-                </div>
             </div>
-            <div class="modal-footer">
-                <button class="btn modal-close-btn">Close</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Project 3 Modal -->
-    <div id="modal-project3" class="modal-overlay">
-        <div class="modal">
-            <div class="modal-close"><i class="fas fa-times"></i></div>
-            <div class="modal-header">
-                <h2 class="modal-title">Security Monitoring Dashboard</h2>
-            </div>
-            <div class="modal-body">
-                <div class="modal-image">
-                    <img src="/api/placeholder/800/450" alt="Security Monitoring Dashboard Project">
+            
+            <!-- Programming Projects Card -->
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="https://github.com/user-attachments/assets/8cdb1d97-71c3-4974-b70c-c654da461f8c" alt="Programming Projects">
                 </div>
-                <div class="modal-section">
-                    <h3 class="modal-section-title">Project Overview</h3>
-                    <p>This project focused on developing a comprehensive security monitoring dashboard that provides real-time visualization of security events and alerts. The dashboard integrates data from multiple security systems to provide a unified view of the organization's security posture.</p>
-                </div>
-                <div class="modal-section">
-                    <h3 class="modal-section-title">Technologies Used</h3>
-                    <div class="modal-tech">
-                        <span>HTML</span>
-                        <span>CSS</span>
-                        <span>JavaScript</span>
+                <div class="project-content">
+                    <h3 class="project-title">Software Development</h3>
+                    <p class="project-description">Programming projects showcasing proficiency in C# and Python languages through practical applications and problem-solving.</p>
+                    <div class="project-tech">
                         <span>C#</span>
-                        <span>Data Visualization</span>
-                        <span>Threat Detection</span>
-                        <span>API Integration</span>
+                        <span>Python</span>
+                        <span>.NET</span>
+                    </div>
+                    <div class="project-links">
+                        <a class="details-btn" data-project="software-development"><i class="fas fa-external-link-alt"></i> More Details</a>
                     </div>
                 </div>
-                <div class="modal-section">
-                    <h3 class="modal-section-title">Key Features</h3>
-                    <ul>
-                        <li>Real-time visualization of security events and alerts</li>
-                        <li>Customizable dashboard views for different user roles</li>
-                        <li>Integration with multiple security information sources</li>
-                        <li>Automated threat classification and prioritization</li>
-                        <li>Historical trend analysis and reporting capabilities</li>
-                        <li>Mobile-responsive design for monitoring on any device</li>
-                    </ul>
-                </div>
-                <div class="modal-section">
-                    <h3 class="modal-section-title">Challenges & Solutions</h3>
-                    <p>The main challenge was processing and visualizing large volumes of security data in real-time without performance degradation. I implemented a tiered data processing architecture that filtered and aggregated events before visualization, significantly reducing the processing load. Additionally, I designed an adaptive refresh mechanism that adjusted update frequencies based on data criticality and user activity.</p>
-                </div>
-                <div class="modal-section">
-                    <h3 class="modal-section-title">Outcomes</h3>
-                    <p>The security monitoring dashboard has dramatically improved the organization's ability to detect and respond to security incidents. Security analysts now have immediate visibility into potential threats, with the average incident response time reduced by 60%. The system's intuitive visualization has also enhanced communication of security status to non-technical stakeholders, improving overall security awareness throughout the organization.</p>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn modal-close-btn">Close</button>
             </div>
         </div>
     </div>
+</section>
+
+<!-- Project Modals -->
+<!-- Systems Analysis Modal -->
+<div id="modal-systems-analysis" class="modal-overlay">
+    <div class="modal">
+        <div class="modal-close"><i class="fas fa-times"></i></div>
+        <div class="modal-header">
+            <h2 class="modal-title">Systems Analysis Projects</h2>
+        </div>
+        <div class="modal-body">
+            <div class="modal-image">
+                <img src="https://github.com/user-attachments/assets/9d0d2b79-fd38-4470-ba92-ff70f847f7eb" alt="Systems Analysis Projects">
+            </div>
+            <div class="modal-section">
+                <h3 class="modal-section-title">Category Overview</h3>
+                <p>Below are three examples for my development of business and system analysis through the process of agile and UML. These projects demonstrate my ability to analyze complex systems, document requirements, and model solutions using industry-standard methodologies.</p>
+            </div>
+            <div class="modal-section">
+                <h3 class="modal-section-title">Featured Projects</h3>
+                <p>Please click the GitHub button below for a full list of my Systems Analysis projects. My repository contains a comprehensive collection of UML diagrams, Agile documentation, and business analysis deliverables from various projects.</p>
+            </div>
+            <div class="modal-section">
+                <h3 class="modal-section-title">Skills Demonstrated</h3>
+                <div class="modal-tech">
+                    <span>UML Diagramming</span>
+                    <span>Requirements Analysis</span>
+                    <span>Agile Methodologies</span>
+                    <span>System Design</span>
+                    <span>Business Process Modeling</span>
+                    <span>Use Case Development</span>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="https://github.com/ytimshina/system-analyst-" target="_blank" class="btn">View on GitHub</a>
+            <button class="btn modal-close-btn">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- Technical Skills Modal -->
+<div id="modal-technical-skills" class="modal-overlay">
+    <div class="modal">
+        <div class="modal-close"><i class="fas fa-times"></i></div>
+        <div class="modal-header">
+            <h2 class="modal-title">Technical Skills Projects</h2>
+        </div>
+        <div class="modal-body">
+            <div class="modal-image">
+                <img src="https://github.com/user-attachments/assets/74bab6b6-0f0b-407d-935a-bf2d117d297f" alt="Technical Skills Projects">
+            </div>
+            <div class="modal-section">
+                <h3 class="modal-section-title">Category Overview</h3>
+                <p>This category demonstrates my analytical skills pertaining to IT case studies and soft skills in the form of PowerPoint presentations. These projects showcase my ability to analyze complex technical scenarios, provide strategic recommendations, and effectively communicate findings.</p>
+            </div>
+            <div class="modal-section">
+                <h3 class="modal-section-title">Featured Projects</h3>
+                <p>Please click the GitHub button below to view the complete collection of my Technical Skills projects. The repository contains case studies, analyses, presentations, and documentation demonstrating my IT analytical capabilities.</p>
+            </div>
+            <div class="modal-section">
+                <h3 class="modal-section-title">Skills Demonstrated</h3>
+                <div class="modal-tech">
+                    <span>Technical Analysis</span>
+                    <span>Case Studies</span>
+                    <span>Risk Assessment</span>
+                    <span>PowerPoint</span>
+                    <span>Documentation</span>
+                    <span>Strategic Planning</span>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="https://github.com/ytimshina/Technical-Skills" target="_blank" class="btn">View on GitHub</a>
+            <button class="btn modal-close-btn">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- Database Design Modal -->
+<div id="modal-database-design" class="modal-overlay">
+    <div class="modal">
+        <div class="modal-close"><i class="fas fa-times"></i></div>
+        <div class="modal-header">
+            <h2 class="modal-title">Database Design Projects</h2>
+        </div>
+        <div class="modal-body">
+            <div class="modal-image">
+                <img src="https://github.com/user-attachments/assets/1dd023c6-08c6-442b-90cb-abb83ee26ea8" alt="Database Design Projects">
+            </div>
+            <div class="modal-section">
+                <h3 class="modal-section-title">Category Overview</h3>
+                <p>This category focuses on structuring databases, ensuring efficient data storage, retrieval, and integrity. These projects involved identifying necessary data, organizing it into tables, and defining relationships. Through these projects, I've developed proficiency in SQL to query, manage, and manipulate relational databases.</p>
+            </div>
+            <div class="modal-section">
+                <h3 class="modal-section-title">Featured Projects</h3>
+                <p>Please click the GitHub button below to explore the full list of my Database Design projects. The repository includes database schemas, SQL queries, data models, and normalization examples that demonstrate my database development skills.</p>
+            </div>
+            <div class="modal-section">
+                <h3 class="modal-section-title">Skills Demonstrated</h3>
+                <div class="modal-tech">
+                    <span>SQL</span>
+                    <span>Database Normalization</span>
+                    <span>ER Diagrams</span>
+                    <span>Data Modeling</span>
+                    <span>Query Optimization</span>
+                    <span>Database Security</span>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="https://github.com/ytimshina/Database-Design" target="_blank" class="btn">View on GitHub</a>
+            <button class="btn modal-close-btn">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- Software Development Modal -->
+<div id="modal-software-development" class="modal-overlay">
+    <div class="modal">
+        <div class="modal-close"><i class="fas fa-times"></i></div>
+        <div class="modal-header">
+            <h2 class="modal-title">Software Development Projects</h2>
+        </div>
+        <div class="modal-body">
+            <div class="modal-image">
+                <img src="https://github.com/user-attachments/assets/8cdb1d97-71c3-4974-b70c-c654da461f8c" alt="Software Development Projects">
+            </div>
+            <div class="modal-section">
+                <h3 class="modal-section-title">Category Overview</h3>
+                <p>This section demonstrates concepts that I have covered in C# and Python. These programming projects showcase my ability to develop practical solutions to real-world problems, implement algorithms, and create functional applications using industry-standard programming languages and techniques.</p>
+            </div>
+            <div class="modal-section">
+                <h3 class="modal-section-title">Featured Projects</h3>
+                <p>Please click the GitHub button below to access the complete collection of my Software Development projects. The repository contains C# and Python applications, code samples, and programming exercises that highlight my development skills.</p>
+            </div>
+            <div class="modal-section">
+                <h3 class="modal-section-title">Skills Demonstrated</h3>
+                <div class="modal-tech">
+                    <span>C#</span>
+                    <span>Python</span>
+                    <span>.NET Framework</span>
+                    <span>Object-Oriented Programming</span>
+                    <span>Data Structures</span>
+                    <span>Algorithm Implementation</span>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="https://github.com/ytimshina/CIS-199-Software-Development" target="_blank" class="btn">View on GitHub</a>
+            <button class="btn modal-close-btn">Close</button>
+        </div>
+    </div>
+</div>
 
     <!-- Education Section -->
-    <section class="section" id="education" style="background-color: #f9fafb;">
-        <div class="container">
-            <div class="section-title">
-                <h2>Education & Experience</h2>
+<section class="section" id="education" style="background-color: #f9fafb;">
+    <div class="container">
+        <div class="section-title">
+            <h2>Education & Experience</h2>
+        </div>
+        <div class="timeline">
+            <!-- Education Item 1 -->
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <span class="timeline-year">2021 - 2025</span>
+                    <h3 class="timeline-title">Bachelor of Science in Computer Information Systems</h3>
+                    <p class="timeline-subtitle">University of Louisville, KY</p>
+                    <p>Double major in Business Process Management and Internet Security with a 3.7 GPA. Expected graduation: May 2025.</p>
+                    <p>Relevant Coursework: CIS 481, 199, 205, 150, 350</p>
+                </div>
             </div>
-            <div class="timeline">
-                <!-- Education Item 1 -->
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <span class="timeline-year">2021 - 2025</span>
-                        <h3 class="timeline-title">Bachelor of Science in Computer Information Systems</h3>
-                        <p class="timeline-subtitle">University of Louisville, KY</p>
-                        <p>Concentration in Information Security with a perfect 4.0 major GPA and 3.4 cumulative GPA. Dean's list: Fall 2022, Spring 2023, Fall 2023.</p>
-                        <p>Relevant Coursework: CIS 481, 199, 205, 150, 350</p>
-                    </div>
+            <!-- Experience Item 1 - KCC Manufacturing -->
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <span class="timeline-year">June 2024 - Present</span>
+                    <h3 class="timeline-title">Network Service Intern</h3>
+                    <p class="timeline-subtitle">KCC Manufacturing, Louisville, KY</p>
+                    <ul style="list-style-type: disc; margin-left: 20px; color: var(--gray-color);">
+                        <li>Took part in network infrastructure upgrades through Cisco switch replacements and configurations, utilizing the Cisco dashboard to enhance network performance and security.</li>
+                        <li>Executed VLAN changes and reconfigurations to optimize network segmentation and strengthen organizational security posture.</li>
+                        <li>Established comprehensive documentation standards for enterprise operations, covering Active Directory, printer configurations, server naming, and Azure app service protocols.</li>
+                        <li>Developed secure PowerShell automation scripts enabling user-initiated software downloads with AD credential integration and manager-authorized MFA reset capabilities.</li>
+                        <li>Architected and deployed an internal web server featuring a custom Windows forms application with integrated authentication for secure software distribution.</li>
+                    </ul>
                 </div>
-                <!-- Education Item 2 -->
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <span class="timeline-year">2023</span>
-                        <h3 class="timeline-title">Associate of Arts in Business</h3>
-                        <p class="timeline-subtitle">Jefferson Community & Technical College, Louisville, KY</p>
-                        <p>Graduated with a 3.4 cumulative GPA, building a strong foundation in business principles that complement my technical skills.</p>
-                    </div>
+            </div>
+            <!-- Experience Item 2 - GE Appliance Park -->
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <span class="timeline-year">August 2020 - June 2024</span>
+                    <h3 class="timeline-title">Production Line Operator</h3>
+                    <p class="timeline-subtitle">GE Appliance Park, Louisville, KY</p>
+                    <ul style="list-style-type: disc; margin-left: 20px; color: var(--gray-color);">
+                        <li>Follow blueprints, schematics, and work instructions to ensure the components' precise assembly using various power tools.</li>
+                        <li>Inspect assembled parts for accuracy and compliance with the unit's specifications.</li>
+                        <li>Work efficiently and meet production standards and deadlines.</li>
+                    </ul>
                 </div>
-                <!-- Experience Item 1 -->
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <span class="timeline-year">2020 - Present</span>
-                        <h3 class="timeline-title">Production Line Operator</h3>
-                        <p class="timeline-subtitle">GE Appliance Park, Louisville, KY</p>
-                        <p>Follow blueprints, schematics, and work instructions to ensure precise assembly of components using various power tools. Inspect assembled parts for accuracy and compliance with specifications. Work efficiently to meet production standards and deadlines.</p>
-                    </div>
+            </div>
+            <!-- Experience Item 3 - JPMorgan -->
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <span class="timeline-year">Feb 2023 - May 2023</span>
+                    <h3 class="timeline-title">Seasonal Data Entry</h3>
+                    <p class="timeline-subtitle">JPMorgan, Louisville, KY</p>
+                    <ul style="list-style-type: disc; margin-left: 20px; color: var(--gray-color);">
+                        <li>Entered and maintained highly classified data with exceptional accuracy using specialized software tools.</li>
+                        <li>Ensured data quality while meeting strict deadlines.</li>
+                        <li>Collaborated effectively with team members to maintain data integrity and security standards.</li>
+                    </ul>
                 </div>
-                <!-- Experience Item 2 -->
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <span class="timeline-year">Feb 2023 - May 2023</span>
-                        <h3 class="timeline-title">Seasonal Data Entry</h3>
-                        <p class="timeline-subtitle">JPMorgan, Louisville, KY</p>
-                        <p>Entered and maintained highly classified data with exceptional accuracy using specialized software tools. Ensured data quality while meeting strict deadlines. Collaborated effectively with team members to maintain data integrity and security standards.</p>
-                    </div>
-                </div>
-                <!-- Experience Item 3 -->
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <span class="timeline-year">2018 - 2020</span>
-                        <h3 class="timeline-title">Online Grocery Pickup Associate</h3>
-                        <p class="timeline-subtitle">Walmart, Lawrenceville, KY</p>
-                        <p>Successfully gathered customers' online orders with precision and attention to detail. Ensured orders were correctly and neatly packed for customer pickup, demonstrating strong organizational skills and customer service orientation.</p>
-                    </div>
+            </div>
+            <!-- Experience Item 4 - Walmart -->
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <span class="timeline-year">2018 - 2020</span>
+                    <h3 class="timeline-title">Online Grocery Pickup Associate</h3>
+                    <p class="timeline-subtitle">Walmart, Lawrenceville, KY</p>
+                    <ul style="list-style-type: disc; margin-left: 20px; color: var(--gray-color);">
+                        <li>Successfully gathered customers' online orders with precision and attention to detail.</li>
+                        <li>Ensured orders were correctly and neatly packed for customer pickup.</li>
+                        <li>Demonstrated strong organizational skills and customer service orientation.</li>
+                    </ul>
                 </div>
             </div>
         </div>
-    </section>
-
     <!-- Contact Section -->
     <section class="section" id="contact">
         <div class="container">
@@ -1550,8 +1678,10 @@
             btn.addEventListener('click', () => {
                 const projectId = btn.getAttribute('data-project');
                 const modal = document.getElementById(`modal-${projectId}`);
-                modal.classList.add('active');
-                document.body.classList.add('modal-open');
+                if (modal) {
+                    modal.classList.add('active');
+                    document.body.classList.add('modal-open');
+                }
             });
         });
 
@@ -1583,6 +1713,24 @@
                 document.body.classList.remove('modal-open');
             }
         });
+        
+        // Animation for category sections on scroll
+        const categorySections = document.querySelectorAll('.category-section');
+        
+        function checkCategoriesScroll() {
+            categorySections.forEach(section => {
+                const sectionPosition = section.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.1;
+                
+                if (sectionPosition < screenPosition) {
+                    section.classList.add('visible');
+                }
+            });
+        }
+        
+        // Check on scroll and initial load
+        window.addEventListener('scroll', checkCategoriesScroll);
+        window.addEventListener('load', checkCategoriesScroll);
     </script>
 </body>
 </html>
